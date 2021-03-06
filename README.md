@@ -2,13 +2,14 @@
 
 This is a sample project that uses Next.js and MongoDB to create users. This project illustrates how to use JWT cookies to authorize user access to protected routes.
 
-### The backend contains 3 API routes:
+### The Next.js serverless backend contains 3 API routes:
 
 - Signup
 - Login
 - Profile
+- Logout
 
-With these routes, new users can sign up, login, and view a protected route, like the `/profile` page.
+With these routes, new users can sign up, login, and view a protected route, like the `/profile` page. When they logout, their JWT cookie session is deleted.
 
 ### The frontend uses Next.js to:
 
@@ -81,33 +82,35 @@ A few things should happen:
 
 # The Backend Project Structure
 
-### connectDB
+Next.js uses serverless functions for server functionality. This means API routes can be created with Next.js. These functions run on demand, which means they run as stand alone instances. This is different than Express which provides one server for all API routes.
 
-This file is responsible for connecting mongoose to mongodb.
+### pages/api
+
+This folder contains your next.js API routes and resolvers.
 
 ### models
 
-This contains the `User` model. This is used in the `resolvers` to create new users and find existing ones.
+This folder contains the `User` model. This is used in the `resolvers` to create new users and find existing ones.
 
-### resolvers
+### middlewares
 
-These are the functions responsible for responding to incoming requests. They create new users, logging existing ones in, and returning JWT to the client.
+This folder contains functions that run for certain api routes when requests are made.
 
-### routes
+- `connectDb.js`: this middleware connects mongoose to an existing mongodb cluster.
 
-These are all of the API routes. They each take a `resolver` function
+- `withCors.js`: this middleware allows certain origins and credentials, e.g. JWT cookie, to be sent. It should be noted, that cors only effects browser requests, and shouldn't be used for all security purposes.
 
-### middleware
+- `isAuthorized.js`: this middleware checks to see if the user has a JWT cookie, decodes that cookie, and attaches the `user.id` to the `req` object. Any route that uses this middleware, e.g. `/profile`, will get access to the `user.id`
 
-These are functions that run for certain routes when requests are made. There's an `Auth` middleware function that is responsible for verifying incoming JWT's, when a User tries to access the `Profile` route which is protected. The auth route looks for the JWT in the `req.header.token`. However, for security purposes this should be transferred over to an `httpOnly` cookie.
+- `all.js`: this middleware leverages [next-connect](https://www.npmjs.com/package/next-connect) to chain `connectDb.js` and `withCors.js` together. `all.js` is then used in any API route that needs it.
 
-### app.js
+### lib
 
-This file wires all of these pieces up:
+This folder contains helper functions:
 
-- It starts up your express server
-- It creates a connection to your database
-- It spins up your API
+- `generateTokens.js`: this function generates a new JWT cookie, which Next.js API routes can then use.
+
+- `withAuth`: this is a middleware function that is responsible for verifying incoming JWT's, when a User tries to access the `Profile` route which is protected. The auth route looks for the JWT in the `req.header.token`. However, for security purposes this should be transferred over to an `httpOnly` cookie.
 
 <br/>
 
@@ -160,11 +163,9 @@ Here are a few articles that helped with making this project:
 
 - [Client-side Authentication the Right Way (Cookies vs. Local Storage)](https://www.taniarascia.com/full-stack-cookies-localstorage-react-express/)
 
-- [Express JS Cookies](https://www.tutorialspoint.com/expressjs/expressjs_cookies.htm)
-
 - [JWT authentication: When and how to user it](https://blog.logrocket.com/jwt-authentication-best-practices/)
 
-- [Manage Cookies with Express](https://flaviocopes.com/express-cookies/)
+- [Next.js Cookies](https://maxschmitt.me/posts/next-js-cookies/)
 
 - [Learn how HTTP Cookies work](https://flaviocopes.com/cookies/#set-a-cookie-expiration-date)
 
@@ -178,7 +179,25 @@ Here are a few articles that helped with making this project:
 
 - [Next.js API Middlewares](https://nextjs.org/docs/api-routes/api-middlewares)
 
-- [The Ultimate Guide to handling JWTs on frontend clients (GraphQL)](https://hasura.io/blog/best-practices-of-using-jwt-with-graphql/#jwt_structure)
+- [Next.js Mongodb App in Github](https://github.com/hoangvvo/nextjs-mongodb-app)
+
+# App Dependencies:
+
+```
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookies": "^0.8.0",
+    "cors": "^2.8.5",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.18",
+    "next": "10.0.7",
+    "next-connect": "^0.10.0",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "styled-components": "^5.2.1",
+    "swr": "^0.4.2"
+  }
+```
 
 # Next Steps
 
