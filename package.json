@@ -1,0 +1,24 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "pretty": "npx prettier --write '**/*.js' "
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookies": "^0.8.0",
+    "cors": "^2.8.5",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.18",
+    "next": "10.0.7",
+    "next-connect": "^0.10.0",
+    "react": "17.0.1",
+    "react-dom": "17.0.1",
+    "styled-components": "^5.2.1",
+    "swr": "^0.4.2"
+  }
+}
