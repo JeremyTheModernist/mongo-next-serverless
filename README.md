@@ -39,10 +39,9 @@ To use this project, you will need to create a new MongoDB cluster via a new pro
 
 ### Create a new `.env` file
 
-In the root of the `mongo-auth-jwt` directory create a new `.env` file with the following information:
+In the root of this directory create a new `.env.local` file with the following information:
 
 ```
-PORT = <AnyPortNumber>
 DB_ENV = "testing"
 FRONTEND_URL = <YourFrontendURL>
 MONGO_URL = <YourMongodbURL>
@@ -51,16 +50,14 @@ SECRET_JWT_KEY = <AnySuperSecretKey>
 
 ### Install dependencies and start up the servers:
 
-Make sure you are in the root directory of this project, `mongo-auth-nextjs`. Then, in your terminal:
+Make sure you are in the root directory of this project. Then, in your terminal:
 
 ```
-npm run setup
+npm install
 npm run dev
 ```
 
-These commands will install of the dependencies for the frontend and the backend, and start their servers up.
-
-The backend is available at `http://localhost:<PORT>`, where `PORT` is the one you designated in the `.env` file.
+These commands will install of the dependencies for your project, and start your servers up.
 
 ### Create a new user
 
@@ -82,7 +79,7 @@ A few things should happen:
 
 # The Backend Project Structure
 
-Next.js uses serverless functions for server functionality. This means API routes can be created with Next.js. These functions run on demand, which means they run as stand alone instances. This is different than Express which provides one server for all API routes.
+Next.js uses serverless functions for server-side functionality. This means API routes can be created with Next.js. These functions run on demand, which means they run as stand alone instances. This is different than Express which provides one server for all API routes.
 
 ### pages/api
 
