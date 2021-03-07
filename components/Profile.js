@@ -1,20 +1,10 @@
-import React, { useState } from 'react';
-import { useEffect } from 'react';
-import { useUserContext } from '../state/UserProvider';
+import React from "react";
+import { useUser } from "../hooks/index";
 
 const Profile = () => {
-  const { useGetUser } = useUserContext();
-  const { execute, user } = useGetUser({ redirectURL: '/profile' });
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(async () => {
-    await execute();
-    setIsMounted(true);
-  }, []);
-  if (!isMounted) {
-    return <div>Loading ...</div>;
-  }
-  console.log('YOUR SET USER USER', user);
+  const { user, isLoading, isError } = useUser();
+  if (isLoading) return <div>currently loading your data</div>;
+  if (isError) return <div>there was an error!</div>;
   return (
     <div>
       <h1>welcome back: {user?.username}</h1>

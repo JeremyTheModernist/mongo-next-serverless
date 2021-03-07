@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import Button from './Button';
-import Input from './Input';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { useForm } from "../hooks/useForm";
+import Button from "./Button";
+import Input from "./Input";
 
 const FormStyles = styled.form`
   display: flex;
@@ -12,27 +13,12 @@ const FormStyles = styled.form`
   }
 `;
 
-const Form = ({ formInputs = [], handleOnSubmit }) => {
-  const [formData, setForm] = useState({});
-  //   console.log("yo form data!",formData)
-  const handleOnChange = (e) => {
-    let formData = {};
-    formData[e.target.name] = e.target.value;
-    setForm((prevData) => {
-      return {
-        ...prevData,
-        ...formData,
-      };
-    });
-  };
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    handleOnSubmit(formData);
-  };
+const Form = ({ formInputs = [], handleOnSubmit = (formData = {}) => console.log(formData) }) => {
+  const { handleChange, handleSubmit } = useForm(handleOnSubmit);
   return (
     <FormStyles onSubmit={handleSubmit}>
       {formInputs.map((input, key) => {
-        return <Input key={key} {...input} handleOnChange={handleOnChange} />;
+        return <Input key={key} {...input} handleOnChange={handleChange} />;
       })}
       <Button>Submit</Button>
     </FormStyles>

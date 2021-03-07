@@ -122,6 +122,26 @@ This folder provides some global context to our entire app. It provides core fun
 - logging users out
 - fetching users
 
+### hooks
+
+This folders contains the project react hooks:
+
+- `useForm`: this hook collects form input data and provides it to a `handleSubmit` callback function. This hook is used ont the Signup and Login page.
+
+- `useUser`: this hook fetches the user. It uses a package called [useSWR](https://swr.vercel.app/).
+
+### swr
+
+Stands for `stale-while-revalidate` and provides a 3 step process:
+
+- First it returns the data from the cache
+- Second, it sends a fetch request to revalidate that data
+- Third, it populates and rerenders the component with the most up-to-date data.
+
+You can [pass SWR options](https://swr.vercel.app/docs/options), including [polling the database](https://swr.vercel.app/docs/revalidation#revalidate-on-interval) at different intervals
+
+`useSWR` should only be used with `GET` requests.
+
 ### components
 
 All of the next js components. Much of the `Form` logic has been abstracted away. The primary thing to keep in mind is that when the `submit` button is clicked, the client fires off a request to the backend with that users information.
@@ -177,6 +197,12 @@ Here are a few articles that helped with making this project:
 - [Next.js API Middlewares](https://nextjs.org/docs/api-routes/api-middlewares)
 
 - [Next.js Mongodb App in Github](https://github.com/hoangvvo/nextjs-mongodb-app)
+
+- [Fetching Data in Next.js with useSWR](https://www.ibrahima-ndaw.com/blog/data-fetching-in-nextjs-using-useswr/)
+
+- [useSWR options](https://swr.vercel.app/docs/options)
+
+- [useSWR global configuration](https://blog.logrocket.com/caching-clash-useswr-vs-react-query/)
 
 # App Dependencies:
 
