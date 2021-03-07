@@ -19,7 +19,10 @@ const InputStyles = styled.input`
   padding: var(--padding-large);
 `;
 
-const Input = ({ id, name, type, handleOnChange }) => {
+// values are stored in formData from useForm
+// each input name corresponds to a value
+// hence value={formData.name}
+const Input = ({ id, name, type, handleOnChange, formData }) => {
   const handleChange = (e) => {
     // console.log(e.target.value)
     handleOnChange ? handleOnChange(e) : null;
@@ -27,7 +30,7 @@ const Input = ({ id, name, type, handleOnChange }) => {
   return (
     <InputWrapper>
       <label htmlFor={id}>{id}</label>
-      <InputStyles {...{ id, name, type }} onChange={handleChange} />
+      <InputStyles {...{ id, name, type }} onChange={handleChange} value={formData.name} />
     </InputWrapper>
   );
 };

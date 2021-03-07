@@ -14,11 +14,11 @@ const FormStyles = styled.form`
 `;
 
 const Form = ({ formInputs = [], handleOnSubmit = (formData = {}) => console.log(formData) }) => {
-  const { handleChange, handleSubmit } = useForm(handleOnSubmit);
+  const { formData,handleChange, handleSubmit } = useForm(handleOnSubmit);
   return (
     <FormStyles onSubmit={handleSubmit}>
       {formInputs.map((input, key) => {
-        return <Input key={key} {...input} handleOnChange={handleChange} />;
+        return <Input key={key} {...input} handleOnChange={handleChange} formData={formData}/>;
       })}
       <Button>Submit</Button>
     </FormStyles>
